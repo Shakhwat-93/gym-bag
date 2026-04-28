@@ -1,0 +1,12 @@
+node_modules/
+dist/
+
+.devserver.*.log
+*.tsbuildinfo
+
+assets/*.png
+assets/*.jpg
+assets/*.jpeg
+
+.env
+.env.*
