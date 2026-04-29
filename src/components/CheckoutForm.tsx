@@ -32,6 +32,8 @@ const PRODUCT_CATEGORY_2 = 'Crossbody Bag';
 const DEFAULT_ORDER_STATUS = 'Pending Call';
 const DEFAULT_PAYMENT_STATUS = 'Unpaid';
 const DEFAULT_COURIER_STATUS = 'pending';
+const ORDER_BLOCK_WINDOW_MS = 24 * 60 * 60 * 1000;
+const ORDER_BLOCK_BYPASS_PHONES = new Set(['01315183993', '01953986982']);
 
 const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const { stockCount } = useLiveStock();
@@ -108,26 +110,33 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
       alert('দয়া করে সঠিক ১১ ডিজিটের বাংলাদেশী মোবাইল নাম্বার দিন (যেমন: 017XXXXXXXX)।');
       return;
     }
+    const shouldBypassOrderBlock = ORDER_BLOCK_BYPASS_PHONES.has(normalizedPhone);
+    const lastOrderStorageKey = `last_order_time_${normalizedPhone}`;
 
     setIsSubmitting(true);
 
     try {
-      const threeHoursAgo = new Date(Date.now() - 3 * 60 * 60 * 1000).toISOString();
+      if (!shouldBypassOrderBlock) {
+        const blockWindowStart = new Date(Date.now() - ORDER_BLOCK_WINDOW_MS).toISOString();
+        const { data: recentOrders } = await supabase
+          .from('orders')
+          .select('id')
+          .eq('phone', normalizedPhone)
+          .gte('created_at', blockWindowStart)
+          .limit(1);
 
-      const { data: recentOrders } = await supabase
-        .from('orders')
-        .select('id')
-        .eq('phone', normalizedPhone)
-        .gte('created_at', threeHoursAgo)
-        .limit(1);
+        const lastOrderTime = localStorage.getItem(lastOrderStorageKey);
+        const legacyLastOrderTime = localStorage.getItem('last_order_time');
+        const isRateLimitedByStorage =
+          !!lastOrderTime && Date.now() - parseInt(lastOrderTime, 10) < ORDER_BLOCK_WINDOW_MS;
+        const isRateLimitedByLegacyStorage =
+          !!legacyLastOrderTime && Date.now() - parseInt(legacyLastOrderTime, 10) < ORDER_BLOCK_WINDOW_MS;
 
-      const lastOrderTime = localStorage.getItem('last_order_time');
-      const isRateLimitedByStorage = lastOrderTime && Date.now() - parseInt(lastOrderTime) < 3 * 60 * 60 * 1000;
-
-      if ((recentOrders && recentOrders.length > 0) || isRateLimitedByStorage) {
-        setShowLimitModal(true);
-        setIsSubmitting(false);
-        return;
+        if ((recentOrders && recentOrders.length > 0) || isRateLimitedByStorage || isRateLimitedByLegacyStorage) {
+          setShowLimitModal(true);
+          setIsSubmitting(false);
+          return;
+        }
       }
 
       const totalItems = selectedItems.reduce((sum, item) => sum + cart[item.id], 0);
@@ -203,7 +212,10 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
         ordered_items: orderedItemsJson,
       });
 
-      localStorage.setItem('last_order_time', Date.now().toString());
+      if (!shouldBypassOrderBlock) {
+        localStorage.setItem(lastOrderStorageKey, Date.now().toString());
+        localStorage.setItem('last_order_time', Date.now().toString());
+      }
       if (onSuccess) onSuccess();
     } catch (error) {
       console.error('Error submitting order:', error);
@@ -230,7 +242,7 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
             </div>
             <h3 className="text-xl font-bold text-gray-900 mb-2">অর্ডার লিমিট অতিক্রম করেছে!</h3>
             <p className="text-gray-600 mb-6 text-sm">
-              আপনি ইতিমধ্যেই একটি অর্ডার প্লেস করেছেন। স্প্যাম রোধ করতে, দয়া করে ৩ ঘণ্টা পর আবার চেষ্টা করুন।
+              আপনি ইতিমধ্যেই একটি অর্ডার প্লেস করেছেন। প্রয়োজন হলে সাপোর্টে যোগাযোগ করুন।
             </p>
             <button
               onClick={() => setShowLimitModal(false)}
