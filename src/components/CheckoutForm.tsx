@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Check, Headphones, Lock, Minus, Plus, ShieldCheck, Truck } from 'lucide-react';
 import productImg from '../../assets/789789789dfsdf.webp';
 import { supabase } from '../lib/supabase';
+import { useLiveStock } from '../hooks/useLiveStock';
 
 type ProductVariant = {
   id: string;
@@ -22,6 +23,7 @@ const productVariants: ProductVariant[] = [
 ];
 
 const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
+  const { stockCount } = useLiveStock();
   const [shippingCost, setShippingCost] = useState<number>(60);
   const [showLimitModal, setShowLimitModal] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -187,7 +189,7 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
             <div className="mb-6 text-center">
               <p className="text-sm font-extrabold uppercase tracking-[0.18em] text-accent">Place Your Order</p>
               <h2 className="mt-2 text-3xl md:text-4xl font-black text-gray-950">Don’t Miss This Deal</h2>
-              <p className="mt-3 font-semibold text-gray-600">Order now before stock out. Only 17 pcs left.</p>
+              <p className="mt-3 font-semibold text-gray-600">Order now before stock out. Only {stockCount} pcs left.</p>
             </div>
 
             <div className="grid gap-4">
@@ -225,7 +227,7 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
                       <div className="flex items-start justify-between gap-3 mb-2">
                         <h4 className="text-sm font-black text-gray-900">{variant.name}</h4>
                         <span className="shrink-0 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-green-600 border border-green-100">
-                          In stock
+                          {stockCount} pcs left
                         </span>
                       </div>
                       <div className="flex items-center gap-4">

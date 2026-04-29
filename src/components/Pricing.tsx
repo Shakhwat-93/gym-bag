@@ -2,8 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, Clock3, Star, Tag, Truck, Wallet } from 'lucide-react';
 import productImg from '../../assets/894897897.webp';
+import { useLiveStock } from '../hooks/useLiveStock';
 
 const Pricing = () => {
+  const { stockCount } = useLiveStock();
+
   return (
     <section className="relative overflow-hidden bg-white py-20">
       <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-orange-200 to-transparent"></div>
@@ -30,7 +33,7 @@ const Pricing = () => {
           <div className="relative min-h-[320px] bg-gray-100">
             <img src={productImg} alt="Magnetic Gym Crossbody Bag on gym machine" className="h-full w-full object-cover" />
             <div className="absolute left-5 top-5 rounded-full bg-white/95 px-4 py-2 text-sm font-black text-red-600 shadow-lg">
-              Only 17 pcs left
+              Only {stockCount} pcs left
             </div>
           </div>
 
@@ -57,7 +60,7 @@ const Pricing = () => {
               </div>
               <p className="mt-3 flex items-center gap-2 text-sm font-bold text-red-600">
                 <Clock3 size={16} />
-                <span>Offer ending soon — stock limited</span>
+                <span>Live stock updating — only {stockCount} pcs left</span>
               </p>
             </div>
 

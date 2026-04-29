@@ -10,6 +10,8 @@ import FloatingCallButton from './components/FloatingCallButton';
 import AnnouncementBar from './components/AnnouncementBar';
 import Pricing from './components/Pricing';
 import PopupOffer from './components/PopupOffer';
+import { LiveStockProvider } from './hooks/useLiveStock';
+import StickyOrderButton from './components/StickyOrderButton';
 
 function App() {
   const [isOrderSuccess, setIsOrderSuccess] = React.useState(false);
@@ -55,21 +57,24 @@ function App() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
-      <AnnouncementBar />
-      <Header />
-      <main className="flex-grow">
-        <Hero />
-        <ProblemSolution />
-        <Features />
-        <ProductGallery />
-        <Pricing />
-        <CheckoutForm onSuccess={() => setIsOrderSuccess(true)} />
-      </main>
-      <Footer />
-      <FloatingCallButton />
-      <PopupOffer />
-    </div>
+    <LiveStockProvider>
+      <div className="min-h-screen bg-gray-50 flex flex-col font-sans">
+        <AnnouncementBar />
+        <Header />
+        <main className="flex-grow">
+          <Hero />
+          <ProblemSolution />
+          <Features />
+          <ProductGallery />
+          <Pricing />
+          <CheckoutForm onSuccess={() => setIsOrderSuccess(true)} />
+        </main>
+        <Footer />
+        <StickyOrderButton />
+        <FloatingCallButton />
+        <PopupOffer />
+      </div>
+    </LiveStockProvider>
   );
 }
 
