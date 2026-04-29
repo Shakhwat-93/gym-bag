@@ -31,7 +31,7 @@ const StickyOrderButton = () => {
       initial={{ opacity: 0, y: 18 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.5, duration: 0.35 }}
-      className="fixed bottom-5 left-4 right-24 z-50 inline-flex min-h-14 items-center justify-center gap-2 rounded-full bg-[#cc0000] px-5 py-3 text-sm font-extrabold text-white shadow-[0_14px_36px_rgba(204,0,0,0.3)] transition-all hover:-translate-y-0.5 hover:bg-[#a30000] md:bottom-6 md:left-6 md:right-auto md:px-6"
+      className="fixed bottom-6 left-6 z-50 hidden min-h-14 items-center justify-center gap-2 rounded-full bg-[#cc0000] px-6 py-3 text-sm font-extrabold text-white shadow-[0_14px_36px_rgba(204,0,0,0.3)] transition-all hover:-translate-y-0.5 hover:bg-[#a30000] md:inline-flex"
       aria-label="Order now"
     >
       <ShoppingBag size={18} />

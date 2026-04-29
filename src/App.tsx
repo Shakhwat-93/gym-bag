@@ -17,22 +17,21 @@ function App() {
   const [isOrderSuccess, setIsOrderSuccess] = React.useState(false);
 
   React.useEffect(() => {
-    // Push GA4 view_item event on page load
     const w = window as any;
     w.dataLayer = w.dataLayer || [];
     w.dataLayer.push({
-      event: "view_item",
+      event: 'view_item',
       ecommerce: {
-        currency: "BDT",
+        currency: 'BDT',
         value: 1650,
         items: [
           {
-            item_name: "Magnetic Gym Crossbody Bag",
+            item_name: 'Magnetic Gym Crossbody Bag',
             price: 1650,
-            quantity: 1
-          }
-        ]
-      }
+            quantity: 1,
+          },
+        ],
+      },
     });
   }, []);
 

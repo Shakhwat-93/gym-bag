@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle2, Frown, Magnet, SmilePlus, XCircle } from 'lucide-react';
+import SectionOrderCta from './SectionOrderCta';
 
 const problems = [
   'ঘাম + ধুলা → ফোন নষ্ট হওয়ার ঝুঁকি',
@@ -90,6 +91,8 @@ const ProblemSolution = () => {
             <span>Stick it anywhere, keep everything close.</span>
           </p>
         </div>
+
+        <SectionOrderCta />
       </div>
     </section>
   );

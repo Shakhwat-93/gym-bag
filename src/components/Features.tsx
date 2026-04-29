@@ -12,6 +12,7 @@ import {
   Repeat2,
   WalletCards,
 } from 'lucide-react';
+import SectionOrderCta from './SectionOrderCta';
 
 const featuresList = [
   {
@@ -128,6 +129,8 @@ const Features = () => {
             ))}
           </div>
         </div>
+
+        <SectionOrderCta />
       </div>
     </section>
   );

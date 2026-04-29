@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Check, Headphones, Lock, Minus, Plus, ShieldCheck, Truck } from 'lucide-react';
 import productImg from '../../assets/789789789dfsdf.webp';
 import { supabase } from '../lib/supabase';
 import { useLiveStock } from '../hooks/useLiveStock';
+import { fetchPublicIp } from '../lib/publicIp';
 
 type ProductVariant = {
   id: string;
@@ -22,6 +23,13 @@ const productVariants: ProductVariant[] = [
   },
 ];
 
+const ORDER_SOURCE = 'gym-bag-landing';
+const ORDER_ID_PREFIX = 'MGB';
+const PRODUCT_NAME = 'Magnetic Gym Crossbody Bag';
+const DEFAULT_ORDER_STATUS = 'Pending Call';
+const DEFAULT_PAYMENT_STATUS = 'Unpaid';
+const DEFAULT_COURIER_STATUS = 'pending';
+
 const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const { stockCount } = useLiveStock();
   const [shippingCost, setShippingCost] = useState<number>(60);
@@ -30,9 +38,28 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [name, setName] = useState('');
   const [address, setAddress] = useState('');
   const [phone, setPhone] = useState('');
+  const [clientIpAddress, setClientIpAddress] = useState<string | null>(null);
   const [cart, setCart] = useState<Record<string, number>>({
     'magnetic-gym-bag': 1,
   });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const loadPublicIp = async () => {
+      const ipAddress = await fetchPublicIp();
+
+      if (isMounted && ipAddress) {
+        setClientIpAddress(ipAddress);
+      }
+    };
+
+    void loadPublicIp();
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const handleToggleVariant = (id: string) => {
     const variant = productVariants.find((item) => item.id === id);
@@ -107,7 +134,8 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
         price: item.price,
       }));
 
-      const orderId = `MGB-${Date.now().toString().slice(-6)}-${Math.floor(100 + Math.random() * 900)}`;
+      const orderId = `${ORDER_ID_PREFIX}-${Math.floor(100000 + Math.random() * 900000)}`;
+      const resolvedIpAddress = clientIpAddress || (await fetchPublicIp());
 
       const { error } = await supabase.from('orders').insert([
         {
@@ -115,13 +143,17 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
           customer_name: name.trim(),
           phone: normalizedPhone,
           address: address.trim(),
-          product_name: 'Magnetic Gym Crossbody Bag',
+          product_name: PRODUCT_NAME,
+          quantity: totalItems,
           ordered_items: orderedItemsJson,
           amount: total,
           items: totalItems,
           shipping_zone: shippingCost === 130 ? 'Outside dhaka' : 'Inside dhaka',
-          source: 'magnetic-gym-bag-landing',
-          status: 'New',
+          source: ORDER_SOURCE,
+          ip_address: resolvedIpAddress,
+          status: DEFAULT_ORDER_STATUS,
+          payment_status: DEFAULT_PAYMENT_STATUS,
+          courier_status: DEFAULT_COURIER_STATUS,
         },
       ]);
 
@@ -141,7 +173,7 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
             quantity: item.quantity,
           })),
         },
-        order_source: 'magnetic-gym-bag-landing',
+        order_source: ORDER_SOURCE,
       });
 
       localStorage.setItem('last_order_time', Date.now().toString());

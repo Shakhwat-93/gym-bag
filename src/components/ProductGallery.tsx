@@ -4,6 +4,7 @@ import productSideImg from '../../assets/4569.webp';
 import productFrontImg from '../../assets/789789789dfsdf.webp';
 import gymUseImg from '../../assets/894897897.webp';
 import productOpenImg from '../../assets/WhatsApp Image 2026-04-28 at 12.25.03 PM.webp';
+import SectionOrderCta from './SectionOrderCta';
 
 const images = [
   { src: gymUseImg, label: 'Strong magnetic hold on gym machine' },
@@ -38,6 +39,8 @@ const ProductGallery = () => {
             </motion.div>
           ))}
         </div>
+
+        <SectionOrderCta />
       </div>
     </section>
   );
