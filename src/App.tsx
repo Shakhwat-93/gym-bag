@@ -13,22 +13,37 @@ import PopupOffer from './components/PopupOffer';
 import { LiveStockProvider } from './hooks/useLiveStock';
 import StickyOrderButton from './components/StickyOrderButton';
 
+const PRODUCT_NAME = 'Magnetic Gym Crossbody Bag';
+const PRODUCT_BRAND = 'Canvas Bag';
+const PRODUCT_CATEGORY = 'Gym Bag';
+const PRODUCT_CATEGORY_2 = 'Crossbody Bag';
+const PRODUCT_PRICE = 1650;
+const PRODUCT_ID = 'magnetic-gym-bag';
+
 function App() {
   const [isOrderSuccess, setIsOrderSuccess] = React.useState(false);
 
   React.useEffect(() => {
     const w = window as any;
     w.dataLayer = w.dataLayer || [];
+    w.dataLayer.push({ ecommerce: null });
     w.dataLayer.push({
       event: 'view_item',
       ecommerce: {
         currency: 'BDT',
-        value: 1650,
+        value: PRODUCT_PRICE,
         items: [
           {
-            item_name: 'Magnetic Gym Crossbody Bag',
-            price: 1650,
+            item_id: PRODUCT_ID,
+            item_name: PRODUCT_NAME,
+            item_brand: PRODUCT_BRAND,
+            item_category: PRODUCT_CATEGORY,
+            item_category2: PRODUCT_CATEGORY_2,
+            item_variant: 'Default',
+            price: PRODUCT_PRICE,
             quantity: 1,
+            currency: 'BDT',
+            index: 0,
           },
         ],
       },

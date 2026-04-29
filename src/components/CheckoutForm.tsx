@@ -26,6 +26,9 @@ const productVariants: ProductVariant[] = [
 const ORDER_SOURCE = 'gym-bag-landing';
 const ORDER_ID_PREFIX = 'MGB';
 const PRODUCT_NAME = 'Magnetic Gym Crossbody Bag';
+const PRODUCT_BRAND = 'Canvas Bag';
+const PRODUCT_CATEGORY = 'Gym Bag';
+const PRODUCT_CATEGORY_2 = 'Crossbody Bag';
 const DEFAULT_ORDER_STATUS = 'Pending Call';
 const DEFAULT_PAYMENT_STATUS = 'Unpaid';
 const DEFAULT_COURIER_STATUS = 'pending';
@@ -133,6 +136,18 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
         quantity: cart[item.id],
         price: item.price,
       }));
+      const dataLayerItems = selectedItems.map((item, index) => ({
+        item_id: item.id,
+        item_name: item.name,
+        item_brand: PRODUCT_BRAND,
+        item_category: PRODUCT_CATEGORY,
+        item_category2: PRODUCT_CATEGORY_2,
+        item_variant: 'Default',
+        price: item.price,
+        quantity: cart[item.id],
+        currency: 'BDT',
+        index,
+      }));
 
       const orderId = `${ORDER_ID_PREFIX}-${Math.floor(100000 + Math.random() * 900000)}`;
       const resolvedIpAddress = clientIpAddress || (await fetchPublicIp());
@@ -161,19 +176,31 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
 
       const w = window as any;
       w.dataLayer = w.dataLayer || [];
+      w.dataLayer.push({ ecommerce: null });
       w.dataLayer.push({
         event: 'purchase',
         ecommerce: {
           transaction_id: orderId,
           value: total,
           currency: 'BDT',
-          items: orderedItemsJson.map((item) => ({
-            item_name: item.name,
-            price: item.price,
-            quantity: item.quantity,
-          })),
+          shipping: shippingCost,
+          tax: 0,
+          coupon: '',
+          items: dataLayerItems,
         },
+        order_id: orderId,
         order_source: ORDER_SOURCE,
+        product_name: PRODUCT_NAME,
+        customer_name: name.trim(),
+        customer_phone: normalizedPhone,
+        customer_address: address.trim(),
+        shipping_zone: shippingCost === 130 ? 'Outside dhaka' : 'Inside dhaka',
+        payment_method: 'Cash on Delivery',
+        total_items: totalItems,
+        product_subtotal: productSubtotal,
+        total_amount: total,
+        ip_address: resolvedIpAddress,
+        ordered_items: orderedItemsJson,
       });
 
       localStorage.setItem('last_order_time', Date.now().toString());
