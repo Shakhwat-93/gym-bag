@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, PackageCheck, ShieldCheck, ShoppingBag } from 'lucide-react';
-import desktop1 from '../../assets/hero-desktop.png';
-import desktop2 from '../../assets/hero-desktop-2.png';
-import desktop3 from '../../assets/hero2.png';
-import mobile1 from '../../assets/hero-mobile-1.jpg';
-import mobile2 from '../../assets/hero-mobile-2.jpg';
-import mobile3 from '../../assets/hero-mobile-3.jpg';
+import desktop1 from '../../assets/hero-desktop.webp';
+import desktop2 from '../../assets/hero-desktop-2.webp';
+import desktop3 from '../../assets/hero2.webp';
+import mobile1 from '../../assets/hero-mobile-1.webp';
+import mobile2 from '../../assets/hero-mobile-2.webp';
+import mobile3 from '../../assets/hero-mobile-3.webp';
 import { useLiveStock } from '../hooks/useLiveStock';
 
 const desktopImages = [desktop1, desktop2, desktop3];
@@ -47,6 +47,7 @@ const Hero = () => {
                 alt={`Canvas Bag Magnetic Gym Crossbody Bag offer ${i + 1}`}
                 className="w-full object-cover"
                 fetchPriority={i === 0 ? "high" : "auto"}
+                loading={i === 0 ? "eager" : "lazy"}
               />
             </picture>
           ))}

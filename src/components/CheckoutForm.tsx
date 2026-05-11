@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Headphones, Lock, Minus, Plus, ShieldCheck, Truck } from 'lucide-react';
-import blackImg from '../../assets/black.jpg';
-import oliveImg from '../../assets/olive.png';
-import pinkImg from '../../assets/pink.jpg';
-import whiteImg from '../../assets/white.jpg';
+import blackImg from '../../assets/black.webp';
+import oliveImg from '../../assets/olive.webp';
+import pinkImg from '../../assets/pink.webp';
+import whiteImg from '../../assets/white.webp';
 import { supabase } from '../lib/supabase';
 import { useLiveStock } from '../hooks/useLiveStock';
 import { fetchPublicIp } from '../lib/publicIp';
@@ -333,7 +333,7 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
                     </button>
 
                     <div className="w-16 h-16 rounded-md shadow-sm mr-4 flex-shrink-0 border border-gray-100 overflow-hidden bg-gray-50 relative">
-                      <img src={variant.image} alt={variant.name} className="w-full h-full object-cover" />
+                      <img src={variant.image} alt={variant.name} loading="lazy" className="w-full h-full object-cover" />
                     </div>
 
                     <div className="flex-1">
@@ -439,7 +439,7 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
                     <div key={item.id} className="flex justify-between items-center">
                       <div className="flex items-center gap-3">
                         <div className="w-12 h-12 rounded shadow-sm flex-shrink-0 border border-gray-100 overflow-hidden bg-gray-50">
-                          <img src={item.image} alt={item.name} className="w-full h-full object-cover" />
+                          <img src={item.image} alt={item.name} loading="lazy" className="w-full h-full object-cover" />
                         </div>
                         <div className="flex flex-col text-sm text-gray-600">
                           <span>{item.name}</span>

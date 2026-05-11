@@ -1,9 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import blackImg from '../../assets/black.jpg';
-import oliveImg from '../../assets/olive.png';
-import pinkImg from '../../assets/pink.jpg';
-import whiteImg from '../../assets/white.jpg';
+import blackImg from '../../assets/black.webp';
+import oliveImg from '../../assets/olive.webp';
+import pinkImg from '../../assets/pink.webp';
+import whiteImg from '../../assets/white.webp';
 import SectionOrderCta from './SectionOrderCta';
 
 const images = [
@@ -34,7 +34,7 @@ const ProductGallery = () => {
               transition={{ delay: idx * 0.1, duration: 0.6 }}
               className="overflow-hidden rounded-2xl bg-gray-50 border border-gray-100 shadow-sm hover:shadow-md transition-shadow"
             >
-              <img src={item.src} alt={item.label} className="aspect-square w-full object-cover" />
+              <img src={item.src} alt={item.label} loading="lazy" className="aspect-square w-full object-cover" />
               <div className="bg-white p-4 text-sm font-bold text-gray-800">{item.label}</div>
             </motion.div>
           ))}
