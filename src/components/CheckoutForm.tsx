@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Headphones, Lock, Minus, Plus, ShieldCheck, Truck } from 'lucide-react';
-import productImg from '../../assets/789789789dfsdf.webp';
+import blackImg from '../../assets/black.jpg';
+import oliveImg from '../../assets/olive.png';
+import pinkImg from '../../assets/pink.jpg';
+import whiteImg from '../../assets/white.jpg';
 import { supabase } from '../lib/supabase';
 import { useLiveStock } from '../hooks/useLiveStock';
 import { fetchPublicIp } from '../lib/publicIp';
@@ -15,15 +18,51 @@ type ProductVariant = {
 
 const productVariants: ProductVariant[] = [
   {
-    id: 'magnetic-gym-bag',
-    name: 'Magnetic Gym Crossbody Bag',
-    image: productImg,
+    id: 'bag-black',
+    name: 'Magnetic Gym Crossbody Bag - Black',
+    image: blackImg,
+    price: 1650,
+    inStock: true,
+  },
+  {
+    id: 'bag-olive',
+    name: 'Magnetic Gym Crossbody Bag - Olive',
+    image: oliveImg,
+    price: 1650,
+    inStock: true,
+  },
+  {
+    id: 'bag-pink',
+    name: 'Magnetic Gym Crossbody Bag - Pink',
+    image: pinkImg,
+    price: 1650,
+    inStock: true,
+  },
+  {
+    id: 'bag-white',
+    name: 'Magnetic Gym Crossbody Bag - White',
+    image: whiteImg,
     price: 1650,
     inStock: true,
   },
 ];
 
-const ORDER_SOURCE = 'gym-bag-landing';
+const getOrderSource = () => {
+  if (typeof window === 'undefined') return 'gym-bag-landing';
+  
+  const urlParams = new URLSearchParams(window.location.search);
+  const utmSource = urlParams.get('utm_source');
+  if (utmSource) return utmSource;
+
+  const referrer = document.referrer.toLowerCase();
+  if (referrer.includes('facebook.com') || referrer.includes('fb.me') || referrer.includes('m.me')) return 'facebook';
+  if (referrer.includes('tiktok.com')) return 'tiktok';
+  if (referrer.includes('instagram.com') || referrer.includes('ig.me')) return 'instagram';
+  if (referrer.includes('youtube.com') || referrer.includes('youtu.be')) return 'youtube';
+  if (referrer.includes('google.com')) return 'google';
+  
+  return 'gym-bag-landing';
+};
 const ORDER_ID_PREFIX = 'MGB';
 const PRODUCT_NAME = 'Magnetic Gym Crossbody Bag';
 const PRODUCT_BRAND = 'Canvas Bag';
@@ -45,7 +84,7 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [phone, setPhone] = useState('');
   const [clientIpAddress, setClientIpAddress] = useState<string | null>(null);
   const [cart, setCart] = useState<Record<string, number>>({
-    'magnetic-gym-bag': 1,
+    'bag-black': 1,
   });
 
   useEffect(() => {
@@ -145,13 +184,16 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
         quantity: cart[item.id],
         price: item.price,
       }));
+      const dynamicProductName = `${PRODUCT_NAME} [${selectedItems
+        .map((item) => `${item.name.replace('Magnetic Gym Crossbody Bag - ', '')} x${cart[item.id]}`)
+        .join(', ')}]`;
       const dataLayerItems = selectedItems.map((item, index) => ({
         item_id: item.id,
         item_name: item.name,
         item_brand: PRODUCT_BRAND,
         item_category: PRODUCT_CATEGORY,
         item_category2: PRODUCT_CATEGORY_2,
-        item_variant: 'Default',
+        item_variant: item.name.replace('Magnetic Gym Crossbody Bag - ', ''),
         price: item.price,
         quantity: cart[item.id],
         currency: 'BDT',
@@ -167,13 +209,13 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
           customer_name: name.trim(),
           phone: normalizedPhone,
           address: address.trim(),
-          product_name: PRODUCT_NAME,
+          product_name: dynamicProductName,
           quantity: totalItems,
           ordered_items: orderedItemsJson,
           amount: total,
           items: totalItems,
           shipping_zone: shippingCost === 130 ? 'Outside dhaka' : 'Inside dhaka',
-          source: ORDER_SOURCE,
+          source: getOrderSource(),
           ip_address: resolvedIpAddress,
           status: DEFAULT_ORDER_STATUS,
           payment_status: DEFAULT_PAYMENT_STATUS,
@@ -198,8 +240,8 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
           items: dataLayerItems,
         },
         order_id: orderId,
-        order_source: ORDER_SOURCE,
-        product_name: PRODUCT_NAME,
+        order_source: getOrderSource(),
+        product_name: dynamicProductName,
         customer_name: name.trim(),
         customer_phone: normalizedPhone,
         customer_address: address.trim(),

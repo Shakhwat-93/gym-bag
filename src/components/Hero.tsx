@@ -1,11 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { ArrowRight, PackageCheck, ShieldCheck, ShoppingBag } from 'lucide-react';
-import heroDesktopImg from '../../assets/hero-desktop.webp';
-import heroMobileImg from '../../assets/hero-mobile.webp';
+import desktop1 from '../../assets/hero-desktop.png';
+import desktop2 from '../../assets/hero-desktop-2.png';
+import desktop3 from '../../assets/hero2.png';
+import mobile1 from '../../assets/hero-mobile-1.jpg';
+import mobile2 from '../../assets/hero-mobile-2.jpg';
+import mobile3 from '../../assets/hero-mobile-3.jpg';
 import { useLiveStock } from '../hooks/useLiveStock';
 
+const desktopImages = [desktop1, desktop2, desktop3];
+const mobileImages = [mobile1, mobile2, mobile3];
 const Hero = () => {
   const { stockCount } = useLiveStock();
+  const [currentIndex, setCurrentIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % desktopImages.length);
+    }, 3000);
+    return () => clearInterval(timer);
+  }, []);
 
   const scrollToForm = () => {
     document.getElementById('checkout-form')?.scrollIntoView({ behavior: 'smooth' });
@@ -19,15 +33,24 @@ const Hero = () => {
         className="block w-full cursor-pointer bg-black text-left"
         aria-label="Order Magnetic Gym Crossbody Bag"
       >
-        <picture>
-          <source media="(min-width: 768px)" srcSet={heroDesktopImg} />
-          <img
-            src={heroMobileImg}
-            alt="Canvas Bag Magnetic Gym Crossbody Bag offer"
-            className="w-full object-cover"
-            fetchPriority="high"
-          />
-        </picture>
+        <div className="relative w-full bg-gray-100">
+          {desktopImages.map((_, i) => (
+            <picture
+              key={i}
+              className={`w-full block transition-opacity duration-700 ease-in-out ${
+                i === currentIndex ? 'relative opacity-100 z-10' : 'absolute top-0 left-0 opacity-0 z-0'
+              }`}
+            >
+              <source media="(min-width: 768px)" srcSet={desktopImages[i]} />
+              <img
+                src={mobileImages[i]}
+                alt={`Canvas Bag Magnetic Gym Crossbody Bag offer ${i + 1}`}
+                className="w-full object-cover"
+                fetchPriority={i === 0 ? "high" : "auto"}
+              />
+            </picture>
+          ))}
+        </div>
       </button>
 
       <div className="border-b border-gray-100 bg-white">

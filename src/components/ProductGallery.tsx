@@ -1,16 +1,16 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import productSideImg from '../../assets/4569.webp';
-import productFrontImg from '../../assets/789789789dfsdf.webp';
-import gymUseImg from '../../assets/894897897.webp';
-import productOpenImg from '../../assets/WhatsApp Image 2026-04-28 at 12.25.03 PM.webp';
+import blackImg from '../../assets/black.jpg';
+import oliveImg from '../../assets/olive.png';
+import pinkImg from '../../assets/pink.jpg';
+import whiteImg from '../../assets/white.jpg';
 import SectionOrderCta from './SectionOrderCta';
 
 const images = [
-  { src: gymUseImg, label: 'Strong magnetic hold on gym machine' },
-  { src: productFrontImg, label: 'Room for bottle and essentials' },
-  { src: productSideImg, label: 'Crossbody strap included' },
-  { src: productOpenImg, label: 'Smart storage compartments' },
+  { src: blackImg, label: 'Premium Black' },
+  { src: oliveImg, label: 'Military Olive' },
+  { src: pinkImg, label: 'Blush Pink' },
+  { src: whiteImg, label: 'Classic White' },
 ];
 
 const ProductGallery = () => {
@@ -18,9 +18,9 @@ const ProductGallery = () => {
     <section className="py-16 bg-white overflow-hidden">
       <div className="max-w-6xl mx-auto px-4">
         <div className="mb-10 text-center">
-          <h2 className="text-3xl md:text-4xl font-black text-gray-900">See It In Action</h2>
+          <h2 className="text-3xl md:text-4xl font-black text-gray-900">Available Colors</h2>
           <p className="mx-auto mt-3 max-w-2xl text-gray-600 font-medium">
-            Real gym-friendly design with magnetic hold, bottle space and clean carry options.
+            Choose the perfect style that matches your gym outfit. Available in 4 premium colors.
           </p>
         </div>
 

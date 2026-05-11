@@ -5,7 +5,7 @@
 @layer base {
   html, body {
     @apply overflow-x-hidden w-full;
-    font-family: 'Inter', 'Noto Sans Bengali', sans-serif;
+    font-family: 'Inter', 'Tiro Bangla', serif;
   }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { CheckCircle, Clock3, Star, Tag, Truck, Wallet } from 'lucide-react';
-import productImg from '../../assets/894897897.webp';
+import productImg from '../../assets/789789789dfsdf.webp';
 import { useLiveStock } from '../hooks/useLiveStock';
 
 const Pricing = () => {
