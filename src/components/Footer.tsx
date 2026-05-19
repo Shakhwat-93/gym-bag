@@ -48,6 +48,19 @@ const Footer = () => {
             <a href="#" className="transition-colors hover:text-[#cc0000]">Refund Policy</a>
           </div>
         </div>
+        <div className="mt-6 text-center text-xs font-semibold text-gray-400">
+          <p>
+            Made by{' '}
+            <a
+              href="https://shakhwatrasel.vercel.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-gray-500 transition-colors hover:text-[#cc0000]"
+            >
+              Shakhwat Hossain Rasel
+            </a>
+          </p>
+        </div>
       </div>
     </footer>
   );
