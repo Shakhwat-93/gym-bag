@@ -29,7 +29,7 @@ const productVariants: ProductVariant[] = [
     name: 'Magnetic Gym Crossbody Bag - Olive',
     image: oliveImg,
     price: 1650,
-    inStock: true,
+    inStock: false,
   },
   {
     id: 'bag-pink',
@@ -314,18 +314,27 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
                   <div
                     key={variant.id}
                     className={`flex items-center p-4 rounded-2xl border transition-all ${
-                      isSelected ? 'border-red-400 bg-red-50/30' : 'border-gray-200 bg-white hover:border-gray-300'
+                      !variant.inStock
+                        ? 'border-gray-200 bg-gray-50 opacity-75'
+                        : isSelected
+                          ? 'border-red-400 bg-red-50/30'
+                          : 'border-gray-200 bg-white hover:border-gray-300'
                     }`}
                   >
                     <button
                       type="button"
                       onClick={() => handleToggleVariant(variant.id)}
-                      className="mr-4 cursor-pointer"
+                      disabled={!variant.inStock}
+                      className={`mr-4 ${variant.inStock ? 'cursor-pointer' : 'cursor-not-allowed'}`}
                       aria-label={`Select ${variant.name}`}
                     >
                       <span
                         className={`w-6 h-6 rounded flex items-center justify-center border ${
-                          isSelected ? 'bg-blue-800 border-blue-800 text-white' : 'border-gray-300 bg-white'
+                          isSelected
+                            ? 'bg-blue-800 border-blue-800 text-white'
+                            : variant.inStock
+                              ? 'border-gray-300 bg-white'
+                              : 'border-gray-300 bg-gray-100'
                         }`}
                       >
                         {isSelected && <Check size={16} strokeWidth={3} />}
@@ -333,14 +342,27 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
                     </button>
 
                     <div className="w-16 h-16 rounded-md shadow-sm mr-4 flex-shrink-0 border border-gray-100 overflow-hidden bg-gray-50 relative">
-                      <img src={variant.image} alt={variant.name} loading="lazy" className="w-full h-full object-cover" />
+                      <img
+                        src={variant.image}
+                        alt={variant.name}
+                        loading="lazy"
+                        className={`w-full h-full object-cover ${variant.inStock ? '' : 'grayscale'}`}
+                      />
                     </div>
 
                     <div className="flex-1">
                       <div className="flex items-start justify-between gap-3 mb-2">
-                        <h4 className="text-sm font-black text-gray-900">{variant.name}</h4>
-                        <span className="shrink-0 rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide text-green-600 border border-green-100">
-                          {stockCount} pcs left
+                        <h4 className={`text-sm font-black ${variant.inStock ? 'text-gray-900' : 'text-gray-500'}`}>
+                          {variant.name}
+                        </h4>
+                        <span
+                          className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-bold uppercase tracking-wide border ${
+                            variant.inStock
+                              ? 'bg-green-50 text-green-600 border-green-100'
+                              : 'bg-red-50 text-red-600 border-red-100'
+                          }`}
+                        >
+                          {variant.inStock ? `${stockCount} pcs left` : 'Stock Out'}
                         </span>
                       </div>
                       <div className="flex items-center gap-4">
@@ -348,17 +370,19 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
                           <button
                             type="button"
                             onClick={() => handleUpdateQuantity(variant.id, -1)}
-                            disabled={!isSelected}
+                            disabled={!variant.inStock || !isSelected}
                             className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                             aria-label="Decrease quantity"
                           >
                             <Minus size={14} />
                           </button>
-                          <span className="w-8 text-center text-sm font-medium text-gray-900">{isSelected ? qty : 1}</span>
+                          <span className="w-8 text-center text-sm font-medium text-gray-900">
+                            {variant.inStock ? (isSelected ? qty : 1) : 0}
+                          </span>
                           <button
                             type="button"
                             onClick={() => handleUpdateQuantity(variant.id, 1)}
-                            disabled={!isSelected}
+                            disabled={!variant.inStock || !isSelected}
                             className="w-8 h-8 flex items-center justify-center text-gray-500 hover:bg-gray-50 disabled:opacity-50"
                             aria-label="Increase quantity"
                           >

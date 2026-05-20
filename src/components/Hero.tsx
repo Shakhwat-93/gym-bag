@@ -46,7 +46,7 @@ const Hero = () => {
                 src={mobileImages[i]}
                 alt={`Canvas Bag Magnetic Gym Crossbody Bag offer ${i + 1}`}
                 className="w-full object-cover"
-                fetchPriority={i === 0 ? "high" : "auto"}
+                fetchpriority={i === 0 ? "high" : "auto"}
                 loading={i === 0 ? "eager" : "lazy"}
               />
             </picture>
