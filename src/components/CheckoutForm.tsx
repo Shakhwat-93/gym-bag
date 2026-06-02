@@ -29,7 +29,7 @@ const productVariants: ProductVariant[] = [
     name: 'Magnetic Gym Crossbody Bag - Olive',
     image: oliveImg,
     price: 1650,
-    inStock: false,
+    inStock: true,
   },
   {
     id: 'bag-pink',
