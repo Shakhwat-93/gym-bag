@@ -17,7 +17,7 @@ const PRODUCT_NAME = 'Magnetic Gym Crossbody Bag';
 const PRODUCT_BRAND = 'Canvas Bag';
 const PRODUCT_CATEGORY = 'Gym Bag';
 const PRODUCT_CATEGORY_2 = 'Crossbody Bag';
-const PRODUCT_PRICE = 1650;
+const PRODUCT_PRICE = 1550;
 const PRODUCT_ID = 'magnetic-gym-bag';
 
 function App() {
