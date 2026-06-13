@@ -12,7 +12,7 @@ const AnnouncementBar = () => {
       
       <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-center gap-x-4 gap-y-2 text-xs md:text-sm font-bold tracking-wide text-center">
         <Sparkles size={16} className="text-yellow-300 animate-pulse hidden sm:block" />
-        <span className="leading-tight">🔥 বিশাল ধামাকা অফার: ৳1850 এর Magnetic Gym Crossbody Bag এখন মাত্র <span className="text-yellow-300 text-base md:text-lg mx-1">৳1550</span> | Only {stockCount} pcs left</span>
+        <span className="leading-tight">🔥 বিশাল ধামাকা অফার: ৳1850 এর Magnetic Gym Crossbody Bag এখন মাত্র <span className="text-yellow-300 text-base md:text-lg mx-1">৳1480</span> | Only {stockCount} pcs left</span>
         <Sparkles size={16} className="text-yellow-300 animate-pulse hidden sm:block" />
       </div>
     </div>

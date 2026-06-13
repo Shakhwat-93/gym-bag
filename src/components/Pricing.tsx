@@ -55,7 +55,7 @@ const Pricing = () => {
             <div className="my-8 rounded-2xl border border-orange-100 bg-white p-5 shadow-sm">
               <div className="flex flex-wrap items-end gap-3">
                 <span className="text-lg font-extrabold text-gray-400 line-through">৳1850</span>
-                <span className="text-5xl font-black text-red-600">৳1550</span>
+                <span className="text-5xl font-black text-red-600">৳1480</span>
                 <span className="mb-2 rounded-full bg-orange-50 px-3 py-1 text-sm font-black text-accent">আজকের দাম</span>
               </div>
               <p className="mt-3 flex items-center gap-2 text-sm font-bold text-red-600">
