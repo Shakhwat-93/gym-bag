@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowRight, PackageCheck, ShieldCheck, ShoppingBag } from 'lucide-react';
-import desktop1 from '../../assets/hero-desktop.webp';
-import desktop2 from '../../assets/hero-desktop-2.webp';
-import desktop3 from '../../assets/hero2.webp';
-import mobile1 from '../../assets/hero-mobile-1.webp';
-import mobile2 from '../../assets/hero-mobile-2.webp';
-import mobile3 from '../../assets/hero-mobile-3.webp';
+import heroImg from '../../assets/new img/hero-section.png';
 import { useLiveStock } from '../hooks/useLiveStock';
 
-const desktopImages = [desktop1, desktop2, desktop3];
-const mobileImages = [mobile1, mobile2, mobile3];
+const desktopImages = [heroImg];
+const mobileImages = [heroImg];
 const Hero = () => {
   const { stockCount } = useLiveStock();
   const [currentIndex, setCurrentIndex] = useState(0);

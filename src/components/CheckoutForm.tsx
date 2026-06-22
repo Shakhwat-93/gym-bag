@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { Check, Headphones, Lock, Minus, Plus, ShieldCheck, Truck } from 'lucide-react';
-import blackImg from '../../assets/black.webp';
-import oliveImg from '../../assets/olive.webp';
-import pinkImg from '../../assets/pink.webp';
-import whiteImg from '../../assets/white.webp';
+import blackImg from '../../assets/new img/black.jpeg';
+import oliveImg from '../../assets/new img/olive.jpeg';
+import pinkImg from '../../assets/new img/pink.jpeg';
+import whiteImg from '../../assets/new img/beige.jpeg';
 import { supabase } from '../lib/supabase';
 import { useLiveStock } from '../hooks/useLiveStock';
 import { fetchPublicIp } from '../lib/publicIp';
