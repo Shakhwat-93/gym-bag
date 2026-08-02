@@ -22,7 +22,7 @@ const productVariants: ProductVariant[] = [
     name: 'Magnetic Gym Crossbody Bag - Black',
     image: blackImg,
     price: 1450,
-    inStock: true,
+    inStock: false,
   },
   {
     id: 'bag-olive',
@@ -84,7 +84,7 @@ const CheckoutForm = ({ onSuccess }: { onSuccess?: () => void }) => {
   const [phone, setPhone] = useState('');
   const [clientIpAddress, setClientIpAddress] = useState<string | null>(null);
   const [cart, setCart] = useState<Record<string, number>>({
-    'bag-black': 1,
+    'bag-olive': 1,
   });
 
   useEffect(() => {
